@@ -26,50 +26,117 @@ export default function LoginPage() {
       setToken(data.token);
       router.push('/dashboard');
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Login failed');
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Login failed'
+      );
     }
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100 p-6">
-      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4 rounded-2xl bg-white p-8 shadow-lg">
-        <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
+  <main className="relative flex min-h-screen overflow-hidden bg-gradient-to-br from-gray-200 via-blue-400 to-indigo-700">
 
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-            required
-          />
-        </div>
+    {/* Decorative circles */}
+    <div className="absolute -bottom-32 left-0 h-80 w-80 rounded-full bg-pink-300/40 blur-2xl"></div>
+    <div className="absolute -top-20 right-0 h-80 w-80 rounded-full bg-orange-200/40 blur-2xl"></div>
 
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-            required
-          />
-        </div>
+    <div className="flex w-full flex-col lg:flex-row">
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+      {/* LEFT SIDE TEXT */}
+      <div className="
+        flex 
+        w-full 
+        flex-col 
+        justify-center 
+        px-6 
+        py-10 
+        text-center 
+        text-white 
+        lg:w-1/2 
+        lg:px-20 
+        lg:text-left
+      ">
+        <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+          Join 1000+ Businesses
+        </h1>
 
-        <button type="submit" className="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-700">
-          Login
-        </button>
+        <h2 className="mt-4 text-2xl font-semibold text-yellow-300 sm:text-3xl lg:text-4xl">
+          Powering Growth with Lemonpay!
+        </h2>
+      </div>
 
-        <p className="text-center text-sm text-slate-600">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="font-medium text-blue-600 hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </form>
-    </main>
-  );
+      {/* RIGHT SIDE LOGIN */}
+      <div className="flex w-full items-center justify-center px-4 pb-10 lg:w-1/2 lg:px-0 lg:pb-0">
+        <form
+          onSubmit={handleSubmit}
+          className="
+            w-full 
+            max-w-md 
+            space-y-5 
+            rounded-xl 
+            bg-white/20 
+            p-6 
+            sm:p-8 
+            lg:p-10 
+            backdrop-blur-md
+          "
+        >
+          <h1 className="text-2xl font-semibold text-white sm:text-3xl">
+            Welcome Login System
+          </h1>
+
+          <p className="text-sm text-white/80">
+            Your gateway to seamless transactions and easy payments.
+          </p>
+
+          <div>
+            <label className="mb-1 block text-sm text-white">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-md bg-white/30 px-3 py-2 text-white placeholder-white/70 outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm text-white">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-md bg-white/30 px-3 py-2 text-white placeholder-white/70 outline-none"
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-300">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            className="w-full rounded-md bg-white py-2 font-medium text-indigo-700 hover:bg-gray-200"
+          >
+            Sign in
+          </button>
+
+          <p className="text-right text-sm text-white">
+            Don&apos;t have an account?{' '}
+            <Link href="/signup" className="font-medium underline">
+              Sign Up
+            </Link>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </main>
+);
 }

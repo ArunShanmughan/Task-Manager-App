@@ -9,7 +9,11 @@ type TaskFormProps = {
   onCancelEdit: () => void;
 };
 
-export default function TaskForm({ editingTask, onSubmit, onCancelEdit }: TaskFormProps) {
+export default function TaskForm({
+  editingTask,
+  onSubmit,
+  onCancelEdit,
+}: TaskFormProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,66 +33,132 @@ export default function TaskForm({ editingTask, onSubmit, onCancelEdit }: TaskFo
 
     setError('');
     await onSubmit(payload);
+
     if (!editingTask) {
       event.currentTarget.reset();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl bg-white p-6 shadow">
-      <h2 className="text-xl font-semibold text-slate-800">
-        {editingTask ? 'Edit Task' : 'Add New Task'}
-      </h2>
+    // Overlay
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 sm:px-6">
+      
+      {/* Modal Container */}
+      <div className="
+        w-full 
+        max-w-sm 
+        sm:max-w-md 
+        md:max-w-lg 
+        rounded-2xl 
+        bg-white 
+        p-6 
+        sm:p-8 
+        shadow-xl
+        animate-fadeIn
+      ">
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">Task Name *</label>
-        <input
-          name="taskName"
-          type="text"
-          defaultValue={editingTask?.taskName || ''}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-          placeholder="Plan sprint review"
-        />
+          {/* Title */}
+          <h2 className="text-center text-xl sm:text-2xl font-semibold text-gray-800">
+            {editingTask ? 'Edit Task' : 'Add Task'}
+          </h2>
+
+          {/* Task Name */}
+          <input
+            name="taskName"
+            type="text"
+            defaultValue={editingTask?.taskName || ''}
+            placeholder="Enter Task Name"
+            className="
+              w-full 
+              rounded-lg 
+              bg-gray-100 
+              px-4 
+              py-2.5 
+              text-sm 
+              sm:text-base
+              outline-none 
+              focus:ring-2 
+              focus:ring-blue-500
+            "
+          />
+
+          {/* Description */}
+          <textarea
+            name="description"
+            defaultValue={editingTask?.description || ''}
+            placeholder="Description"
+            rows={3}
+            className="
+              w-full 
+              rounded-lg 
+              bg-gray-100 
+              px-4 
+              py-2.5 
+              text-sm 
+              sm:text-base
+              outline-none 
+              focus:ring-2 
+              focus:ring-blue-500
+            "
+          />
+
+          {/* Due Date */}
+          <input
+            name="dueDate"
+            type="date"
+            defaultValue={editingTask?.dueDate?.split('T')[0] || ''}
+            className="
+              w-full 
+              rounded-lg 
+              bg-gray-100 
+              px-4 
+              py-2.5 
+              text-sm 
+              sm:text-base
+              outline-none 
+              focus:ring-2 
+              focus:ring-blue-500
+            "
+          />
+
+          {/* Error */}
+          {error && (
+            <p className="text-center text-sm text-red-500">{error}</p>
+          )}
+
+          {/* Buttons */}
+          <div className="flex flex-col items-center gap-4 pt-2">
+            <button
+              type="submit"
+              className="
+                w-full 
+                sm:w-auto 
+                rounded-full 
+                bg-blue-600 
+                px-8 
+                py-2.5 
+                text-white 
+                text-sm 
+                sm:text-base
+                transition 
+                hover:bg-blue-700
+              "
+            >
+              {editingTask ? 'Update Task' : 'Save'}
+            </button>
+
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="text-sm text-gray-600 hover:underline"
+            >
+              Cancel
+            </button>
+          </div>
+
+        </form>
       </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">Description</label>
-        <textarea
-          name="description"
-          defaultValue={editingTask?.description || ''}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-          placeholder="Optional details"
-          rows={3}
-        />
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">Due Date *</label>
-        <input
-          name="dueDate"
-          type="date"
-          defaultValue={editingTask?.dueDate?.split('T')[0] || ''}
-          className="w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-        />
-      </div>
-
-      {error && <p className="text-sm text-red-600">{error}</p>}
-
-      <div className="flex gap-3">
-        <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-          {editingTask ? 'Update Task' : 'Create Task'}
-        </button>
-
-        {editingTask && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="rounded-md border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-50"
-          >
-            Cancel
-          </button>
-        )}
-      </div>
-    </form>
+    </div>
   );
 }
